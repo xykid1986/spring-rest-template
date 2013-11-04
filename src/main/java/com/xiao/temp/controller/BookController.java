@@ -14,12 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.xiao.temp.domain.Book;
+import com.xiao.temp.domain.Books;
 import com.xiao.temp.service.BookService;
 
-@Path("/hello")
+@Path("/book")
 @Controller
-@Produces(MediaType.APPLICATION_JSON)
-public class Hello {
+@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+public class BookController {
 	
 	@Autowired
 	private BookService bookService;
@@ -32,7 +33,7 @@ public class Hello {
 	
 	@POST
 	@Path("/save")
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public Response save(Book book){
 		try{
 			bookService.save(book);
@@ -46,14 +47,14 @@ public class Hello {
 	@Path("/mybooks")
 	public Response myBooks(){
 		try{
-			return Response.ok(bookService.findAll()).build();
+			return Response.ok(new Books(bookService.findAll())).build();
 		}catch(Exception e){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 	}
 	
 	@GET
-	@Path("/book/{id}")
+	@Path("/{id}")
 	public Response find(@PathParam("id")Long id){
 		try{
 			return Response.ok(bookService.findOne(id)).build();
