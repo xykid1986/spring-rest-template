@@ -6,11 +6,14 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 
 import com.xiao.temp.domain.Book;
@@ -24,6 +27,7 @@ public class BookController {
 	
 	@Autowired
 	private BookService bookService;
+	private static int pageSize = 10;
 	
 	@GET
 	@Path("/test")
@@ -45,9 +49,10 @@ public class BookController {
 	
 	@GET
 	@Path("/mybooks")
-	public Response myBooks(){
+	public Response myBooks(@QueryParam("page")int page){
 		try{
-			return Response.ok(new Books(bookService.findAll())).build();
+			page = page>0?page:1;
+			return Response.ok(new Books(bookService.findAll(new PageRequest(page-1, pageSize, Sort.Direction.ASC,"id")))).build();
 		}catch(Exception e){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -58,6 +63,26 @@ public class BookController {
 	public Response find(@PathParam("id")Long id){
 		try{
 			return Response.ok(bookService.findOne(id)).build();
+		}catch(Exception e){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+	}
+	
+	@GET
+	@Path("/name/{nanme}")
+	public Response findByName(@PathParam("name")String name){
+		try{
+			return Response.ok(new Books(bookService.findByName(name))).build();
+		}catch(Exception e){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+	}
+	
+	@GET
+	@Path("/author/{author}")
+	public Response findByAuthor(@PathParam("author")String author){
+		try{
+			return Response.ok(new Books(bookService.findByAuthor(author))).build();
 		}catch(Exception e){
 			return Response.status(Status.BAD_REQUEST).build();
 		}

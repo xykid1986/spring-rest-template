@@ -3,6 +3,7 @@ package com.xiao.temp.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,9 +38,19 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public List<Book> findAll() {
-		return Lists.newArrayList(bookRepository.findAll());
+	public List<Book> findAll(Pageable pageable) {
+		return Lists.newArrayList(bookRepository.findAll(pageable).getContent());
 		
+	}
+
+	@Override
+	public List<Book> findByAuthor(String author) {
+		return bookRepository.findByAuthor(author);
+	}
+
+	@Override
+	public List<Book> findByName(String name) {
+		return bookRepository.findByName(name);
 	}
 
 }
