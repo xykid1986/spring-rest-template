@@ -18,6 +18,8 @@ import org.springframework.stereotype.Controller;
 
 import com.xiao.temp.domain.Book;
 import com.xiao.temp.domain.Books;
+
+import com.xiao.temp.domain.PageWrapper;
 import com.xiao.temp.service.BookService;
 
 @Path("/book")
@@ -52,7 +54,7 @@ public class BookController {
 	public Response myBooks(@QueryParam("page")int page){
 		try{
 			page = page>0?page:1;
-			return Response.ok(new Books(bookService.findAll(new PageRequest(page-1, pageSize, Sort.Direction.ASC,"id")))).build();
+			return Response.ok(new PageWrapper<Book>(bookService.findAll(new PageRequest(page-1, pageSize, Sort.Direction.ASC,"id")))).build();
 		}catch(Exception e){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -68,11 +70,13 @@ public class BookController {
 		}
 	}
 	
+	
 	@GET
-	@Path("/name/{nanme}")
-	public Response findByName(@PathParam("name")String name){
+	@Path("/name/{name}")
+	public Response findByNamePage(@PathParam("name")String name, @QueryParam("page")int page){
 		try{
-			return Response.ok(new Books(bookService.findByName(name))).build();
+			page = page>0?page:1;
+			return Response.ok(new PageWrapper<Book>(bookService.findByName(name, new PageRequest(page-1, pageSize, Sort.Direction.ASC,"id")))).build();
 		}catch(Exception e){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -80,9 +84,10 @@ public class BookController {
 	
 	@GET
 	@Path("/author/{author}")
-	public Response findByAuthor(@PathParam("author")String author){
+	public Response findByAuthorPage(@PathParam("author")String author, @QueryParam("page")int page){
 		try{
-			return Response.ok(new Books(bookService.findByAuthor(author))).build();
+			page = page>0?page:1;
+			return Response.ok(new PageWrapper<Book>(bookService.findByAuthor(author, new PageRequest(page-1, pageSize, Sort.Direction.ASC,"id")))).build();
 		}catch(Exception e){
 			return Response.status(Status.BAD_REQUEST).build();
 		}

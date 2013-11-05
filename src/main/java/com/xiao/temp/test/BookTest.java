@@ -1,9 +1,10 @@
 package com.xiao.temp.test;
 
 import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import com.xiao.temp.domain.Books;
+import com.xiao.temp.domain.Book;
 import com.xiao.temp.service.BookService;
 
 public class BookTest {
@@ -21,7 +22,7 @@ public class BookTest {
 	    bs.save(book);
 	    */
 	    
-	    Books find = new Books(bs.findAll(new PageRequest(2,10)));
-	    System.out.println(find.getBooks());
+	    Page<Book> find = bs.findAll(new PageRequest(2,10));
+	    System.out.println(find);
 	}
 }

@@ -3,11 +3,11 @@ package com.xiao.temp.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.collect.Lists;
 import com.xiao.temp.domain.Book;
 import com.xiao.temp.repository.BookRepository;
 
@@ -38,8 +38,8 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public List<Book> findAll(Pageable pageable) {
-		return Lists.newArrayList(bookRepository.findAll(pageable).getContent());
+	public Page<Book> findAll(Pageable pageable) {
+		return bookRepository.findAll(pageable);
 		
 	}
 
@@ -51,6 +51,16 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public List<Book> findByName(String name) {
 		return bookRepository.findByName(name);
+	}
+
+	@Override
+	public Page<Book> findByAuthor(String author, Pageable pageable) {
+		return bookRepository.findByAuthor(author, pageable);
+	}
+
+	@Override
+	public Page<Book> findByName(String name, Pageable pageable) {
+		return bookRepository.findByName(name, pageable);
 	}
 
 }
