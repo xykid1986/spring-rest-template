@@ -22,4 +22,4 @@ mvn clean install
 
 mvn tomcat:run
 
-The testing page is http://localhost:8080/spring-test-template/book/mybooks?page=1, check BookController for more functions.
+The testing page is http://localhost:8080/spring-rest-template/book/mybooks?page=1, check BookController for more functions.
