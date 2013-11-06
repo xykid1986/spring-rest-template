@@ -1,8 +1,10 @@
 package com.xiao.temp.controller;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,8 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 
 import com.xiao.temp.domain.Book;
-import com.xiao.temp.domain.Books;
-
 import com.xiao.temp.domain.PageWrapper;
 import com.xiao.temp.service.BookService;
 
@@ -38,6 +38,18 @@ public class BookController {
 	}
 	
 	@POST
+	@Path("/create")
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	public Response create(Book book){
+		try{
+			bookService.save(book);
+		}catch(Exception e){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		return Response.ok("SUCCESS").build();
+	}
+	
+	@PUT
 	@Path("/save")
 	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public Response save(Book book){
@@ -48,6 +60,19 @@ public class BookController {
 		}
 		return Response.ok("SUCCESS").build();
 	}
+	
+	@DELETE
+	@Path("/delete")
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	public Response delete(Book book){
+		try{
+			bookService.delete(book);
+		}catch(Exception e){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		return Response.ok("SUCCESS").build();
+	}
+	
 	
 	@GET
 	@Path("/mybooks")

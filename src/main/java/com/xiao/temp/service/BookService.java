@@ -15,4 +15,5 @@ public interface BookService {
 	public List<Book> findByName(String name);
 	Page<Book> findByAuthor(String author, Pageable pageable);
 	Page<Book> findByName(String name, Pageable pageable);
+	void delete(Book book);
 }

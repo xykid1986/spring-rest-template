@@ -1,9 +1,14 @@
 package com.xiao.temp.domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -21,6 +26,11 @@ public class Book {
 	private String name;
 	@NotNull
 	private String author;
+	@Version
+	private Date lastModified;
+	@Temporal(value = TemporalType.TIMESTAMP)
+	private Date created;
+	
 	public Long getId() {
 		return id;
 	}

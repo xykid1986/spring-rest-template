@@ -22,7 +22,11 @@ public class BookTest {
 	    bs.save(book);
 	    */
 	    
-	    Page<Book> find = bs.findAll(new PageRequest(2,10));
-	    System.out.println(find);
+	   Page<Book> find = bs.findAll(new PageRequest(2,10));
+	   Book b = bs.findOne(1l);
+	   b.setName("YYYYYYYYY");
+	   System.out.println(b);
+	   bs.save(b);
+	   System.out.println(bs.findOne(1l));
 	}
 }
